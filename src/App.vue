@@ -63,10 +63,52 @@ const foodkaihou = () => foodhyouji.value = !foodhyouji.value
 const drinkkaihou = () => drinkhyouji.value = !drinkhyouji.value
 
 // 注文送信
-function send() {
-  console.log("注文完了:", cart.value)
-  cart.value = []
-  total.value = 0
+async function send() {
+  if (cart.value.length === 0) {
+    alert("カートが空です");
+    return;
+  }
+
+  // ステップ1でコピーしたURLをここに貼り付ける
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1498708202739597512/4JRjGmBhrWKJbIp-Lnw1ws5pmYxd2ZpSIRmnlZc58-dcuKGdAlLGyI7le_xCBKL6cEcm";
+
+  // 送信するメッセージの組み立て
+  const orderDetails = cart.value
+    .map(c => `・${c.item.name} × ${c.qty}`)
+    .join('\n');
+
+  const payload = {
+    username: "注文くん（自動通知）",
+    content: "🔔 **新しい注文が入りました！**",
+    embeds: [{
+      title: "注文内容詳細",
+      description: orderDetails,
+      color: 0x00ff00, // 緑色のバー
+      fields: [
+        { name: "合計金額", value: `${total.value}円`, inline: true }
+      ],
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const response = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      alert("注文が送信されました！スマホのDiscordを確認してください。");
+      cart.value = [];
+      total.value = 0;
+    } else {
+      throw new Error("送信エラー");
+    }
+  } catch (error) {
+    console.error("エラー:", error);
+    alert("送信に失敗しました。URLが正しいか確認してください。");
+  }
 }
 </script>
 
