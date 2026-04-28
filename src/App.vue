@@ -99,7 +99,7 @@ async function send() {
     });
 
     if (response.ok) {
-      alert("注文が送信されました！スマホのDiscordを確認してください。");
+      alert("注文が送信されました.スマホのDiscordを確認してください。");
       cart.value = [];
       total.value = 0;
     } else {
