@@ -61,32 +61,37 @@ function clear() {
 // ボタン操作
 const foodkaihou = () => foodhyouji.value = !foodhyouji.value
 const drinkkaihou = () => drinkhyouji.value = !drinkhyouji.value
-
+const userName = ref("")
+const isShowNameInput = ref(false)
 // 注文送信
-async function send() {
+// 1. 最初に「注文」ボタンを押したときの処理
+function startOrder() {
   if (cart.value.length === 0) {
     alert("カートが空です");
     return;
   }
+  // 名前入力欄を表示する
+  isShowNameInput.value = true;
+}
 
-  // ステップ1でコピーしたURLをここに貼り付ける
+// 2. 名前を入れて「送信」を押したときの処理（中身は前回のsendとほぼ同じ）
+async function confirmAndSend() {
+  if (!userName.value.trim()) {
+    alert("お名前を入力してください");
+    return;
+  }
+
   const WEBHOOK_URL = "https://discord.com/api/webhooks/1498708202739597512/4JRjGmBhrWKJbIp-Lnw1ws5pmYxd2ZpSIRmnlZc58-dcuKGdAlLGyI7le_xCBKL6cEcm";
-
-  // 送信するメッセージの組み立て
-  const orderDetails = cart.value
-    .map(c => `・${c.item.name} × ${c.qty}`)
-    .join('\n');
+  const orderDetails = cart.value.map(c => `・${c.item.name} × ${c.qty}`).join('\n');
 
   const payload = {
-    username: "注文くん（自動通知）",
-    content: "🔔 **新しい注文が入りました！**",
+    username: "注文くん",
+    content: `🔔 **${userName.value} 様からの注文！**`,
     embeds: [{
-      title: "注文内容詳細",
+      title: "注文内容",
       description: orderDetails,
-      color: 0x00ff00, // 緑色のバー
-      fields: [
-        { name: "合計金額", value: `${total.value}円`, inline: true }
-      ],
+      color: 0x00ff00,
+      fields: [{ name: "合計金額", value: `${total.value}円`, inline: true }],
       timestamp: new Date().toISOString()
     }]
   };
@@ -99,15 +104,14 @@ async function send() {
     });
 
     if (response.ok) {
-      alert("注文が送信されました.スマホのDiscordを確認してください。");
-      cart.value = [];
-      total.value = 0;
-    } else {
-      throw new Error("送信エラー");
+      alert("注文を送信しました！");
+      // 全部リセット
+      userName.value = "";
+      isShowNameInput.value = false;
+      clear();
     }
   } catch (error) {
-    console.error("エラー:", error);
-    alert("送信に失敗しました。URLが正しいか確認してください。");
+    alert("エラーが発生しました");
   }
 }
 </script>
@@ -116,8 +120,8 @@ async function send() {
   <header>
     <img src="./assets/wendys_icon.png" alt="wendys_icon" class = "logo" />
 
-    <button @click="clear" class = "button008">カートの中身を消す</button>
-    <button @click="foodkaihou" class = "button003">バーガー</button>
+    <button @click="clear" class = "button003">カートの中身を消す</button>
+    <button @click="foodkaihou" class = "button008">バーガー</button>
      <div v-if="foodhyouji">
       <div 
         v-for="item in foodItems" 
@@ -129,7 +133,7 @@ async function send() {
         <button @click="inCart(item)" class="button008">カートに入れる</button>
       </div>
     </div>
-    <button @click="drinkkaihou" class = "button003">ドリンク</button>
+    <button @click="drinkkaihou" class = "button008">ドリンク</button>
     <!-- 飲み物 -->
     <div v-if="drinkhyouji">
       <div
@@ -139,7 +143,7 @@ async function send() {
       >
         <img :src="item.img" class="item-img" />
         <p>{{ item.name }} - {{ item.price }}円</p>
-        <button @click="inCart(item)" class="button008">カートに入れる</button>
+        <button @click="inCart(item)" class="button003">カートに入れる</button>
       </div>
     </div>
 
@@ -154,12 +158,28 @@ async function send() {
 
     <h3 class="sum">合計: {{ total }}円</h3>
 
-    <button @click="send" class="order">注文</button>
+    <button v-if="!isShowNameInput" @click="startOrder" class="order">
+      注文
+    </button>
+    <!-- 「注文する」を押した後に現れるエリア -->
+    <div v-if="isShowNameInput" class="name-confirm-area">
+      <p style="color: white;">お名前を入力して確定してください</p>
+      <input 
+        v-model="userName" 
+        type="text" 
+        placeholder="お名前（ニックネーム可）" 
+        class="name-input"
+      />
+      <div class="button-group">
+        <button @click="confirmAndSend" class="confirm-btn">送信を確定する</button>
+        <button @click="isShowNameInput = false" class="cancel-btn">キャンセル</button>
+      </div>
+    </div>
   </header>
 </template>
 
 <style>
-/* scopedをつけないことで、画面全体(body)に色が塗れるようになります */
+/* scopedをつけないことで画面全体(body)に色が塗れるようになります */
 html, body {
   margin: 0;
   padding: 0;
@@ -206,7 +226,6 @@ header{
   color: #313131;
   transition: 0.3s ease-in-out;
   font-weight: 500;
-  z-index:0;
 }
 .order:hover {
     background: #313131;
@@ -225,7 +244,6 @@ header{
     color: #313131;
     transition: 0.3s ease-in-out;
     font-weight: 500;
-    z-index:0;
 }
 .button008:hover {
     background: #313131;
@@ -266,5 +284,46 @@ header{
 }
 .button003 a:hover:after {
     border-color: #FFF;
+}
+.name-confirm-area {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.name-input {
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  width: 80%;
+  margin-bottom: 15px;
+}
+
+.confirm-btn {
+  background: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background: #666;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
 }
 </style>
