@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import logoImg from './assets/wendys_icon.png'
-import ramenImg from './assets/ramen.png'
-import yakitoriImg from './assets/yakitori.png'
-import waterImg from './assets/water.png'
-import teaImg from './assets/tea.png'
+import cheese_burgerImg from './assets/cheese_burger.png'
+import chicken_burgerImg from './assets/chicken_burger.png'
+import cokeImg from './assets/coke.png'
+import oolong_teaImg from './assets/oolong_tea.png'
+import cream_sodaImg from './assets/cream_soda.png'
 
 // 型
 type Item = { name: string; price: number; img: string }
@@ -20,13 +21,14 @@ const drinkhyouji = ref(false)
 
 // 商品リスト
 const foodItems: Item[] = [
-  { name: "ラーメン", price: 500, img: ramenImg, },
-  { name: "焼き鳥", price: 300, img: yakitoriImg }
+  { name: "チーズバーガー", price: 500, img: cheese_burgerImg },
+  { name: "チキンバーガー", price: 400, img: chicken_burgerImg }
 ]
 
 const drinkItems: Item[] = [
-  { name: "水", price: 100, img: waterImg },
-  { name: "お茶", price: 200, img: teaImg }
+  { name: "コーラ", price: 150, img: cokeImg },
+  { name: "お茶", price: 200, img: oolong_teaImg },
+  { name: "クリームソーダ", price: 250, img: cream_sodaImg }
 ]
 
 // カートに入れる関数
@@ -174,9 +176,11 @@ header{
   user-select: none;
 }
 .cart{
+  color: white;
   font-family: fantasy;
 }
 .sum{
+  color: white;
   font-family: fantasy;
 }
 .logo{
