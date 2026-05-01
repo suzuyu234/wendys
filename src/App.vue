@@ -158,6 +158,15 @@ async function send() {
   </header>
 </template>
 
+<style>
+/* scopedをつけないことで、画面全体(body)に色が塗れるようになります */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: red; /* headerと同じ赤にする */
+}
+</style>
+
 <style scoped>
 header{
   color: #000; 
