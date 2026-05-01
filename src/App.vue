@@ -163,14 +163,13 @@ async function send() {
 html, body {
   margin: 0;
   padding: 0;
-  background-color: red; /* headerと同じ赤にする */
+  background-color: #880000; /* headerと同じ赤にする */
 }
 </style>
 
 <style scoped>
 header{
   color: #000; 
-  background: red;
   user-select: none;
 }
 .cart{
