@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import logoImg from './assets/gohanyasan.png'
+import logoImg from './assets/wendys_icon.png'
 import ramenImg from './assets/ramen.png'
 import yakitoriImg from './assets/yakitori.png'
 import waterImg from './assets/water.png'
@@ -114,14 +114,11 @@ async function send() {
 
 <template>
   <header>
-    <img src="./assets/gohanyasan.png" alt="ごはんやさん" class = "logo" />
+    <img src="./assets/wendys_icon.png" alt="wendys_icon" class = "logo" />
 
-    <button @click="clear" class = "button003">カートの中身を消す</button>
-    <button @click="foodkaihou" class = "button003">ご飯類</button>
-    <button @click="drinkkaihou" class = "button003">飲み物</button>
-
-    <!-- ご飯 -->
-    <div v-if="foodhyouji">
+    <button @click="clear" class = "button008">カートの中身を消す</button>
+    <button @click="foodkaihou" class = "button003">バーガー</button>
+     <div v-if="foodhyouji">
       <div 
         v-for="item in foodItems" 
         :key="item.name" 
@@ -132,7 +129,7 @@ async function send() {
         <button @click="inCart(item)" class="button008">カートに入れる</button>
       </div>
     </div>
-
+    <button @click="drinkkaihou" class = "button003">ドリンク</button>
     <!-- 飲み物 -->
     <div v-if="drinkhyouji">
       <div
@@ -164,7 +161,7 @@ async function send() {
 <style scoped>
 header{
   color: #000; 
-  background: white;
+  background: red;
   user-select: none;
 }
 .cart{
@@ -182,7 +179,7 @@ header{
   font-size: 20px;
   font-weight: 900;
   text-align: center;
-  color:black;
+  color:white;
   margin: 10px 0;
 }
 .item-img {
