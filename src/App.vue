@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import logoImg from './assets/wendys_icon.png'
-import cheese_burgerImg from './assets/cheese_burger.png'
 import chicken_burgerImg from './assets/chicken_burger.png'
 import cokeImg from './assets/coke.png'
 import oolong_teaImg from './assets/oolong_tea.png'
@@ -21,8 +20,7 @@ const drinkhyouji = ref(false)
 
 // 商品リスト
 const foodItems: Item[] = [
-  { name: "チーズバーガー", price: 500, img: cheese_burgerImg },
-  { name: "チキンバーガー", price: 400, img: chicken_burgerImg }
+  { name: "チキンバーガー", price: 400, img: chicken_burgerImg },
 ]
 
 const drinkItems: Item[] = [
