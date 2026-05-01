@@ -130,7 +130,7 @@ async function confirmAndSend() {
       >
         <img :src="item.img" class="item-img" />
         <p>{{ item.name }} - {{ item.price }}円</p>
-        <button @click="inCart(item)" class="button008">カートに入れる</button>
+        <button @click="inCart(item)" class="button003">カートに入れる</button>
       </div>
     </div>
     <button @click="drinkkaihou" class = "button008">ドリンク</button>
