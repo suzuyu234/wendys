@@ -73,6 +73,7 @@ function startOrder() {
   // 名前入力欄を表示する
   isShowNameInput.value = true;
 }
+const isSending = ref(false)
 
 // 2. 名前を入れて「送信」を押したときの処理（中身は前回のsendとほぼ同じ）
 async function confirmAndSend() {
@@ -80,7 +81,11 @@ async function confirmAndSend() {
     alert("お名前を入力してください");
     return;
   }
+  // --- 追加：すでに送信中なら何もしない ---
+  if (isSending.value) return;
 
+  // 送信中モード開始
+  isSending.value = true;
   const WEBHOOK_URL = "https://discord.com/api/webhooks/1498708202739597512/4JRjGmBhrWKJbIp-Lnw1ws5pmYxd2ZpSIRmnlZc58-dcuKGdAlLGyI7le_xCBKL6cEcm";
   const orderDetails = cart.value.map(c => `・${c.item.name} × ${c.qty}`).join('\n');
 
@@ -110,8 +115,12 @@ async function confirmAndSend() {
       isShowNameInput.value = false;
       clear();
     }
+    
   } catch (error) {
     alert("エラーが発生しました");
+  } finally {
+    // --- 重要：成功しても失敗しても、最後に送信中モードを解除する ---
+    isSending.value = false;
   }
 }
 </script>
