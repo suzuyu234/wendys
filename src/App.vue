@@ -129,8 +129,8 @@ async function confirmAndSend() {
 
 <template>
   <header>
-    <dev class = "header-title">Wendy's first kitchen 注文サイト</dev>
-    
+    <p class = "p-text">Wendy's first kitchen <br> 注文サイト</p>
+
     
     <img src="./assets/wendys_icon.png" alt="wendys_icon" class = "logo" />
 
@@ -208,13 +208,13 @@ header{
   color: #000; 
   user-select: none;
 }
-header .header-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
+.p-text{
   color: white;
-  font-family: fantasy;
+  font-size: 25px;
+  text-align: center; /* 横方向中央寄せ */
+  font-weight: bold;
+  margin: 20px 0;
+  font-family: 'Arial Black', Gadget, sans-serif;
 }
 .cart{
   color: white;
