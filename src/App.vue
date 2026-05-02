@@ -162,7 +162,7 @@ async function confirmAndSend() {
 
     <h2 class="cart">カート</h2>
 
-    <div v-for="c in cart" :key="c.item.name">
+    <div v-for="c in cart" :key="c.item.name" class="item">
       <img :src="c.item.img" class="item-img" />
       {{ c.item.name }} ×{{ c.qty }}（{{ c.item.price }}円）
       <button @click="add(c)">＋</button>
