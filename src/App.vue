@@ -5,6 +5,8 @@ import chicken_burgerImg from './assets/chicken_burger.png'
 import cokeImg from './assets/coke.png'
 import oolong_teaImg from './assets/oolong_tea.png'
 import cream_sodaImg from './assets/cream_soda.png'
+import allhamImg from './assets/allham.png'
+import alldriImg from './assets/alldri.png'
 
 // 型
 type Item = { name: string; price: number; img: string }
@@ -130,7 +132,8 @@ async function confirmAndSend() {
     <img src="./assets/wendys_icon.png" alt="wendys_icon" class = "logo" />
 
     <button @click="clear" class = "button003">カートの中身を消す</button>
-    <button @click="foodkaihou" class = "button008">バーガー</button>
+    <button @click="foodkaihou" class = "image-burger-button" >
+    </button>
      <div v-if="foodhyouji">
       <div 
         v-for="item in foodItems" 
@@ -142,7 +145,8 @@ async function confirmAndSend() {
         <button @click="inCart(item)" class="button003">カートに入れる</button>
       </div>
     </div>
-    <button @click="drinkkaihou" class = "button008">ドリンク</button>
+    <button @click="drinkkaihou" class = "image-drink-button" >
+    </button>
     <!-- 飲み物 -->
     <div v-if="drinkhyouji">
       <div
@@ -335,4 +339,46 @@ header{
   display: flex;
   justify-content: center;
 }
+ .image-burger-button {
+    display: flex;
+     margin: 20px auto; /* 真ん中に設置　*/ 
+     justify-content: center;
+     align-items: center;
+    width: 200px;              /* ボタン幅 */
+    height: 60px;              /* ボタン高さ */
+    border: none;
+    cursor: pointer;          
+    line-height: 60px;         /* 高さと同じにして中央寄せ */
+    background-image: url('@/assets/allham.png'); /* 画像パス */
+    background-size: cover;    /* 縦横比を保ちつつ全面表示 */
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;        /* 角丸 */
+    transition: opacity 0.3s;
+  }
+
+  .image-burger-button:hover {
+    opacity: 0.8;              /* ホバー時に少し暗く */
+  }
+   .image-drink-button {
+    display: flex;
+     margin: 20px auto; /* 真ん中に設置　*/ 
+     justify-content: center;
+     align-items: center;
+    width: 200px;              /* ボタン幅 */
+    height: 60px;              /* ボタン高さ */
+    border: none;
+    cursor: pointer;
+    line-height: 60px;         /* 高さと同じにして中央寄せ */
+    background-image: url('@/assets/alldri.png'); /* 画像パス */
+    background-size: cover;    /* 縦横比を保ちつつ全面表示 */
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;        /* 角丸 */
+    transition: opacity 0.3s;
+  }
+
+  .image-drink-button:hover {
+    opacity: 0.8;              /* ホバー時に少し暗く */
+  }
 </style>
