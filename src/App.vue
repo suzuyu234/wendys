@@ -129,6 +129,9 @@ async function confirmAndSend() {
 
 <template>
   <header>
+    <dev class = "header-title">Wendy's first kitchen 注文サイト</dev>
+    
+    
     <img src="./assets/wendys_icon.png" alt="wendys_icon" class = "logo" />
 
     <button @click="clear" class = "button003">カートの中身を消す</button>
@@ -204,6 +207,14 @@ html, body {
 header{
   color: #000; 
   user-select: none;
+}
+header .header-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  color: white;
+  font-family: fantasy;
 }
 .cart{
   color: white;
