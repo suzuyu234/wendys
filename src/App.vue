@@ -88,7 +88,18 @@ async function confirmAndSend() {
 
   // 送信中モード開始
   isSending.value = true;
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1498708202739597512/4JRjGmBhrWKJbIp-Lnw1ws5pmYxd2ZpSIRmnlZc58-dcuKGdAlLGyI7le_xCBKL6cEcm";
+  const WEBHOOK_URL =
+    import.meta.env.ISCORD_WEBHOOK_URL ||
+    import.meta.env.DISCORD_WEBHOOK_URL ||
+    import.meta.env.VITE_ISCORD_WEBHOOK_URL ||
+    import.meta.env.VITE_DISCORD_WEBHOOK_URL;
+
+  if (!WEBHOOK_URL) {
+    alert("Webhook URLが設定されていません。環境変数 ISCORD_WEBHOOK_URL を設定してください。");
+    isSending.value = false;
+    return;
+  }
+
   const orderDetails = cart.value.map(c => `・${c.item.name} × ${c.qty}`).join('\n');
 
   const payload = {
@@ -183,7 +194,6 @@ async function confirmAndSend() {
       <input 
         v-model="userName" 
         type="text" 
-        placeholder="お名前（ニックネーム可）" 
         class="name-input"
       />
       <div class="button-group">
@@ -310,7 +320,7 @@ header{
     border-color: #FFF;
 }
 .name-confirm-area {
-  background: rgba(0, 0, 0, 0.2);
+  background: black;
   padding: 20px;
   border-radius: 10px;
   margin-top: 20px;
